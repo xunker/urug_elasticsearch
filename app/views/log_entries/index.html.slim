@@ -1,0 +1,66 @@
+scss:
+  .navigation { width: 100%; }
+
+  #logs {
+    margin: 50px 0px 10px 0px;
+
+    table {
+      tbody tr {
+        &.even { }
+        &.odd { background-color: oldlace; }
+        &:hover {
+          background-color: lightblue;
+          cursor: pointer;
+        }
+        td {
+          padding-right: 10px;
+          &:last-child { padding-right: 0px; }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .filters {
+    float: right;
+    form {
+      display: inline;
+      input.text {
+        line-height: normal;
+        &.date { width: 133px; }
+        &.long { width: 150px; }
+        &.short { width: 60px; }
+        margin-right: 5px;
+      }
+      select { margin-right: 5px; }
+      &.clear { margin-left: 5px; }
+    }
+  }
+
+h2 Log Entries
+
+.navigation
+  = paginate log_entries
+
+#logs
+
+  - if log_entries.present?
+    table
+      thead
+        tr
+          th.when When
+          th.who Who
+          th.what What
+          th.why Why
+      tbody
+        - log_entries.each do |log_entry|
+          = render partial: 'log_entry', locals: { log_entry: log_entry }
+  - else
+    em No records found.
+
+= paginate log_entries

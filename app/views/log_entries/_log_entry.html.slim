@@ -1,0 +1,5 @@
+tr class=(cycle(:even, :odd)) data-api-log-id=log_entry.id
+  td.when= Time.parse(log_entry.created_at).strftime("%H:%M %D")
+  td.remote-ip= log_entry.remote_ip
+  td.what= log_entry.path
+  td.term= log_entry.params.to_json

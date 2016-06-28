@@ -9,6 +9,10 @@
 User.__elasticsearch__.delete_index! if User.__elasticsearch__.index_exists?
 User.__elasticsearch__.create_index!
 
+LogEntry.__elasticsearch__.delete_index! if LogEntry.__elasticsearch__.index_exists?
+LogEntry.__elasticsearch__.create_index!
+
+
 user_count = 50 # 500_000
 user_count.times do |i|
   puts "#{user_count-i}" if (i % 100 == 0)

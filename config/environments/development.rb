@@ -38,4 +38,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # log all search API traffic to elasticsearch
+  require Rails.root.join('app/middlewares/log_traffic')
+  config.middleware.use UrugElasticsearch::LogTraffic
 end
