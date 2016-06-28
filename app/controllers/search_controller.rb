@@ -2,12 +2,23 @@ class SearchController < ApplicationController
   def index
     users = []
 
-    if params[:q].present?
+    if (query = params[:q].to_s.dup).present?
+      fields = [:id, 'name^2','email^5', :quote, :quote_type]
+
+      if query =~ /([a-z]+\:)/
+        # look for or custom query language
+        fields = []
+        while matches = query.match(/([a-z]+\:)/) do
+          fields << matches[1].sub(':', '')
+          query.gsub!(matches[1], '')
+        end
+      end
+
       users = User.search(
         query: {
           multi_match: {
-            query: params[:q],
-            fields: ['id^10', 'name^2','email^5', :quote, :quote_type]
+            query: query,
+            fields: fields
           }
         }
       ).page(params[:page].to_i)
