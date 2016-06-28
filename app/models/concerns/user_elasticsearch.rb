@@ -49,10 +49,6 @@ module UserElasticsearch
     after_destroy -> { self.__elasticsearch__.delete_document }
   end
 
-  class_methods do
-
-  end
-
   def as_indexed_json(options={})
     {
       suggest: {
@@ -64,5 +60,9 @@ module UserElasticsearch
         }
       }
     }.as_json.merge(self.as_json)
+  end
+
+  class_methods do
+
   end
 end

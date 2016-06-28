@@ -7,7 +7,7 @@ class SearchController < ApplicationController
         query: {
           multi_match: {
             query: params[:q],
-            fields: ['name^10','email^2','user_id', 'quote', :user_type]
+            fields: ['id^10', 'name^2','email^5', :quote, :quote_type]
           }
         }
       )
@@ -32,9 +32,11 @@ class SearchController < ApplicationController
       }
     )
 
-    suggestion_json = suggestions_response['suggestions'].first['options'].map{|suggestion|
-      { label: suggestion['text'], value: suggestion['payload']['email'] }
-    }
+    suggestion_json = suggestions_response['suggestions']
+      .first['options']
+      .map{|suggestion|
+        { label: suggestion['text'], value: suggestion['payload']['email'] }
+      }
 
     respond_to do |format|
       format.any { render json: suggestion_json }

@@ -9,8 +9,8 @@
 <section class="users">
   <% users.each do |user| %>
     <%= content_tag :div, class: 'result clearfix' do %>
-      <p><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
-      <blockquote><%= user.quote %></blockquote>
+      <p><sup><%= user.id %></sup><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
+      <blockquote><%= user.quote %><sub><%= user.quote_type %></sub></blockquote>
     <% end %>
   <% end %>
 </section>
