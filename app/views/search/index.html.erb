@@ -1,7 +1,5 @@
 <header> <h1> Users </h1> </header>
 
-
-
 <section id="searchbox">
   <%= form_tag search_index_path, method: 'get' do %>
     <input type="text" name="q" value="<%= params[:q] %>" id="q" autofocus="autofocus" placeholder="start typing to search..." tabindex="0" />
@@ -30,22 +28,11 @@
   </section>
 
   <div class="paginate"> <%= paginate users %> </div>
-  
+
 <% end %>
 
 <script>
-  $.widget( "custom.suggest", $.ui.autocomplete, {
-    // _renderMenu: function( ul, items ) {
-    //   $.each( items, function( index, item ) {
-    //     var category = ul.append( "<li class='ui-autocomplete-category'>" + item.label + "</li>" );
-    //
-    //     $.each( item.value, function( index, item ) {
-    //       var li = $('<li class="ui-autocomplete-item"><a href="<%= Rails.application.config.relative_url_root %>'+ item.payload.url +'">'+ item.text +'</a></li>').data('ui-autocomplete-item', item )
-    //       category.append(li)
-    //     } )
-    //   });
-    // }
-  });
+  $.widget( "custom.suggest", $.ui.autocomplete, {});
 
   $( "#q" ).suggest({
     source: '<%= suggest_search_index_path %>'
