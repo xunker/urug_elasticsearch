@@ -1,28 +1,33 @@
-== README
+URUG Elasticsearch - June 2016
+==============================
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a basic Rails app demonstrating Elasticsearch using
+`elasticsearch-model` and `elasticsearch-persistence`.
 
-Things you may want to cover:
+To get this running, you will first need Elasticsearch installed. On a Mac, the
+easiest way is:
 
-* Ruby version
+```
+$ brew install elasticsearch
+```
 
-* System dependencies
+On Linux, use either `apt-get` or `yum`. On Windows, find the precompiled
+binaries on the Elasticsearch web site.
 
-* Configuration
+Note: You may need to install Java first, this is normal.
 
-* Database creation
+Verify Elasticsearch is working by going to `http://localhost:9200` in your
+browser. If you get a JSON page, it is working.
 
-* Database initialization
+Then, to get the Rails app running, do:
 
-* How to run the test suite
+```
+$ bundle install
+$ rake db:create
+$ rake db:migrate
+$ rake db:seed
+$ rails s
+```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Then go to `http://localhost:3000/search` to search for users,
+or `http://localhost:3000/log_entries` to see the logs.
