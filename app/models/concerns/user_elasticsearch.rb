@@ -4,6 +4,8 @@ module UserElasticsearch
   extend ActiveSupport::Concern
 
   included do
+    include Elasticsearch::Model
+
     key :email, String
     key :first_name, String
     key :last_name, String
@@ -65,6 +67,18 @@ module UserElasticsearch
 
       indexes :id, type: :integer
     end
+
+    after_create -> {
+      self.__elasticsearch__.index_document
+    }
+
+    after_update -> {
+      self.__elasticsearch__.update_document
+    }
+
+    after_delete -> {
+      self.__elasticsearch__.delete_document
+    }
   end
 
   class_methods do
