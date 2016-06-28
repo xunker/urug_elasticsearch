@@ -3,7 +3,7 @@ class LogEntriesController < ApplicationController
 
   def index
     render locals: {
-      log_entries: search_handle.page(page).results
+      log_entries: search_handle.page(params[:page].to_i).results
     }
   end
 
@@ -37,10 +37,6 @@ private
     Rails.logger.debug "LogEntry query: #{search_desc}"
 
     @search_handle = LogEntry.search(search_desc)
-  end
-
-  def page
-    params[:page].to_i
   end
 
   def set_default_request_type

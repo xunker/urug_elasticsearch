@@ -10,7 +10,7 @@ class SearchController < ApplicationController
             fields: ['id^10', 'name^2','email^5', :quote, :quote_type]
           }
         }
-      )
+      ).page(params[:page].to_i)
     end
 
     respond_to do |format|

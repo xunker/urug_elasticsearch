@@ -1,24 +1,32 @@
 <header> <h1> Users </h1> </header>
 
+
+
 <section id="searchbox">
   <%= form_tag search_index_path, method: 'get' do %>
     <input type="text" name="q" value="<%= params[:q] %>" id="q" autofocus="autofocus" placeholder="start typing to search..." tabindex="0" />
   <% end %>
 </section>
 
-<section class="users">
-  <% users.each do |user| %>
-    <%= content_tag :div, class: 'result clearfix' do %>
-      <p><sup><%= user.id %></sup><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
-      <blockquote><%= user.quote %><sub><%= user.quote_type %></sub></blockquote>
-    <% end %>
-  <% end %>
-</section>
+<% if users.present? %>
+  <div class="paginate"> <%= paginate users %> </div>
 
-<% if users.empty? %>
-<section class="no-results">
-  <p>The search hasn't returned any results...</p>
-</section>
+  <section class="users">
+    <legend><%= users.count %> found</legend>
+    
+    <% users.each do |user| %>
+      <%= content_tag :div, class: 'result clearfix' do %>
+        <p><sup><%= user.id %></sup><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
+        <blockquote><%= user.quote %><sub><%= user.quote_type %></sub></blockquote>
+      <% end %>
+    <% end %>
+  </section>
+
+  <div class="paginate"> <%= paginate users %> </div>
+<% else %>
+  <section class="no-results">
+    <p>The search hasn't returned any results...</p>
+  </section>
 <% end %>
 
 <script>
