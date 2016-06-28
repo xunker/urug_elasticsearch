@@ -6,13 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-user_count = 1_000
+User.__elasticsearch__.delete_index! if User.__elasticsearch__.index_exists?
+User.__elasticsearch__.create_index!
+
+user_count = 50 # 500_000
 user_count.times do |i|
   puts "#{user_count-i}" if (i % 100 == 0)
-   
-  user_type = rand(3)
 
-  quote = case user_type
+  quote_type = rand(3)
+
+  quote = case quote_type
     when 0
       Faker::Hacker.say_something_smart
     when 1
@@ -24,9 +27,9 @@ user_count.times do |i|
     end
 
   User.create!(
-    name: Faker::Name.name,
+    name: [Faker::Name.first_name, Faker::Name.last_name].join(' '),
     email: Faker::Internet.email,
     quote: quote,
-    user_type: user_type
+    quote_type: quote_type
   )
 end

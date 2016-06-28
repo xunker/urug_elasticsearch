@@ -6,82 +6,63 @@ module UserElasticsearch
   included do
     include Elasticsearch::Model
 
-    key :email, String
-    key :first_name, String
-    key :last_name, String
-    key :quote, String
+    index_name 'urug_elasticsearch_users'
 
-    index_name 'urug_elasticsearch'
+    settings  do
+      mapping dynamic: 'false' do
+        indexes :id, type: :long, index: :not_analyzed
+        indexes :email, type: :string
+        indexes :name, type: :string
 
-    settings analysis: {
-      filter: {
-        english_possessive_stemmer: {
-          type: "stemmer",
-          language: "possessive_english"
-        },
-        english_stop: {
-          type: "stop",
-          stopwords: "_english_"
-        },
-        english_stemmer: {
-          type: "stemmer",
-          language: "english"
-        },
-        exclude_short_words: {
-          type: :length,
-          min: 3
-        }
-      },
-      analyzer: {
-        english: {
-          tokenizer: "standard",
-          filter: [
-            'english_possessive_stemmer',
-            'lowercase',
-            'english_stop',
-            'english_stemmer',
-            'exclude_short_words'
-          ]
-        }
-      }
-    }
+        indexes :updated_at, type: :date, index: :no
+        indexes :created_at, type: :date, index: :no
 
-    mapping do
-      indexes :email, type: :string
-      indexes :name, type: :string
-      indexes :user_type, type: :not_analyzed
+        indexes :quote_type, type: :integer, index: :not_analyzed
+        # indexed :quote, type: :string
 
-      indexes :quote,
-        type: :string,
-        analyzer: 'english',
-        fields: {
-          raw: {
-            type: :string,
-            analyzer: 'keyword_lowercase'
-          },
-          stemmed: {
-            type: :string,
-            analyzer: 'english'
+        indexes :quote,
+          type: :string,
+          analyzer: 'english',
+          fields: {
+            raw: {
+              type: :string,
+              analyzer: 'english'
+            },
+            stemmed: {
+              type: :string,
+              analyzer: 'english'
+            }
           }
-        }
 
-      indexes :id, type: :integer
+        indexes :suggest,
+          type: :completion,
+          analyzer: :simple,
+          search_analyzer: :simple,
+          payloads: true
+      end
     end
 
-    after_create -> {
-      self.__elasticsearch__.index_document
-    }
+    after_create -> { self.__elasticsearch__.index_document }
 
-    after_update -> {
-      self.__elasticsearch__.update_document
-    }
+    after_update -> { self.__elasticsearch__.update_document }
 
-    after_delete -> {
-      self.__elasticsearch__.delete_document
-    }
+    after_destroy -> { self.__elasticsearch__.delete_document }
   end
 
   class_methods do
-    
+
+  end
+
+  def as_indexed_json(options={})
+    {
+      suggest: {
+        input: self.name.split(/\s+/) + [self.email],
+        output: "#{self.name} (#{self.email})",
+        payload: {
+          user_id: self.id, # not used, just for example
+          email: self.email
+        }
+      }
+    }.as_json.merge(self.as_json)
   end
 end

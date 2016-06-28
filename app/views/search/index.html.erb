@@ -1,0 +1,41 @@
+<header> <h1> Users </h1> </header>
+
+<section id="searchbox">
+  <%= form_tag search_index_path, method: 'get' do %>
+    <input type="text" name="q" value="<%= params[:q] %>" id="q" autofocus="autofocus" placeholder="start typing to search..." tabindex="0" />
+  <% end %>
+</section>
+
+<section class="users">
+  <% users.each do |user| %>
+    <%= content_tag :div, class: 'result clearfix' do %>
+      <p><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
+      <blockquote><%= user.quote %></blockquote>
+    <% end %>
+  <% end %>
+</section>
+
+<% if users.empty? %>
+<section class="no-results">
+  <p>The search hasn't returned any results...</p>
+</section>
+<% end %>
+
+<script>
+  $.widget( "custom.suggest", $.ui.autocomplete, {
+    // _renderMenu: function( ul, items ) {
+    //   $.each( items, function( index, item ) {
+    //     var category = ul.append( "<li class='ui-autocomplete-category'>" + item.label + "</li>" );
+    //
+    //     $.each( item.value, function( index, item ) {
+    //       var li = $('<li class="ui-autocomplete-item"><a href="<%= Rails.application.config.relative_url_root %>'+ item.payload.url +'">'+ item.text +'</a></li>').data('ui-autocomplete-item', item )
+    //       category.append(li)
+    //     } )
+    //   });
+    // }
+  });
+
+  $( "#q" ).suggest({
+    source: '<%= suggest_search_index_path %>'
+  });
+</script>

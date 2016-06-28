@@ -1,0 +1,56 @@
+{
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "suggestions": [
+    {
+      "text": "m",
+      "offset": 0,
+      "length": 1,
+      "options": [
+        {
+          "text": "Eulalia Klocko (merl@christiansen.net)",
+          "score": 1,
+          "payload": {
+            "user_id": 41,
+            "email": "merl@christiansen.net"
+          }
+        },
+        {
+          "text": "Joseph Muller (dane.konopelski@cummerata.com)",
+          "score": 1,
+          "payload": {
+            "user_id": 10,
+            "email": "dane.konopelski@cummerata.com"
+          }
+        },
+        {
+          "text": "Malachi Kessler (eladio@wisozk.co)",
+          "score": 1,
+          "payload": {
+            "user_id": 31,
+            "email": "eladio@wisozk.co"
+          }
+        },
+        {
+          "text": "Malachi Skiles (edmond.kerluke@schroeder.io)",
+          "score": 1,
+          "payload": {
+            "user_id": 6,
+            "email": "edmond.kerluke@schroeder.io"
+          }
+        },
+        {
+          "text": "Myrl Dickens (fredrick_bechtelar@batz.co)",
+          "score": 1,
+          "payload": {
+            "user_id": 4,
+            "email": "fredrick_bechtelar@batz.co"
+          }
+        }
+      ]
+    }
+  ]
+}
