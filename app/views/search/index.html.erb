@@ -8,12 +8,19 @@
   <% end %>
 </section>
 
-<% if users.present? %>
+<% if users.empty? %>
+
+  <section class="no-results">
+    <p>The search hasn't returned any results...</p>
+  </section>
+
+<% else %>
+
   <div class="paginate"> <%= paginate users %> </div>
 
   <section class="users">
     <legend><%= users.count %> found</legend>
-    
+
     <% users.each do |user| %>
       <%= content_tag :div, class: 'result clearfix' do %>
         <p><sup><%= user.id %></sup><span class="name"><%= user.name %></span> - <span class="email"><%= user.email %></span></p>
@@ -23,10 +30,7 @@
   </section>
 
   <div class="paginate"> <%= paginate users %> </div>
-<% else %>
-  <section class="no-results">
-    <p>The search hasn't returned any results...</p>
-  </section>
+  
 <% end %>
 
 <script>

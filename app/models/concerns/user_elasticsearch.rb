@@ -10,14 +10,14 @@ module UserElasticsearch
 
     settings  do
       mapping dynamic: 'false' do
-        indexes :id, type: :long, index: :not_analyzed
+        indexes :id, type: :string, index: :not_analyzed # NOTE: indexed as a string!
         indexes :email, type: :string
         indexes :name, type: :string
 
         indexes :updated_at, type: :date, index: :no
         indexes :created_at, type: :date, index: :no
 
-        indexes :quote_type, type: :integer, index: :not_analyzed
+        indexes :quote_type, type: :string, index: :not_analyzed # NOTE: indexed as a string!
         # indexed :quote, type: :string
 
         indexes :quote,
